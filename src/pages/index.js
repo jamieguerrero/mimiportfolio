@@ -1,32 +1,121 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Link, graphql } from 'gatsby'
-import Masonry from 'react-masonry-component'
-import Img from 'gatsby-image'
-import Layout from "../components/layout"
+import Layout from '../components/layout'
+import styled from 'styled-components';
 
-const IndexPage = ({ data }) => (
-  <Layout>
-    <Masonry className="showcase">
-      {data.allDatoCmsWork.edges.map(({ node: work }) => (
-        <div key={work.id} className="showcase__item">
-          <figure className="card">
-            <Link to={`/works/${work.slug}`} className="card__image">
-              <Img fluid={work.coverImage.fluid} />
-            </Link>
-            <figcaption className="card__caption">
-              <h6 className="card__title">
-                <Link to={`/works/${work.slug}`}>{work.title}</Link>
-              </h6>
-              <div className="card__description">
-                <p>{work.excerpt}</p>
-              </div>
-            </figcaption>
-          </figure>
-        </div>
-      ))}
-    </Masonry>
-  </Layout>
-)
+const HomePage = styled.div`
+  position: relative;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  justify-content: flex-end;
+  overflow: scroll;
+`;
+
+const PortfolioList = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin-top: 12rem;
+`;
+
+const PortfolioPiece = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  filter: ${props => props.blur ? 'blur(5px)' : 'blur(0px)'}
+`;
+
+const Title = styled(Link)`
+  font-size: 25px;
+  line-height: 40px;
+  color: ${props => props.selected ? '#FFCB00' : 'black'};
+  filter: ${props => props.selected && 'blur(0px)'};
+  text-decoration: none;
+`;
+
+const FeatureText = styled.span`
+  font-size: 12px;
+  color: ${props => props.selected ? '#FFCB00' : 'black'};
+  filter: ${props => props.selected && 'blur(0px)'};
+  text-decoration: none;
+  margin-left: .5rem;
+`;
+
+const Subtitle = styled(Link)`
+  font-size: 12px;
+  line-height: 20px;
+  color: ${props => props.selected ? '#FFCB00' : 'black'};
+  filter: ${props => props.selected && 'blur(0px)'};
+  text-decoration: none;
+`;
+
+const VideoWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  z-index: -10;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > video {
+    width: 80%;
+  }
+`;
+
+const PortfolioVideo = styled.video`
+  display: ${props => props.displayvideo ? 'block' : 'none'}
+`;
+
+const IndexPage = ({ data }) => {
+  const [hoveredWorkID, setHoveredWorkID] = useState(null);
+
+  const workselected = (id) => (id === hoveredWorkID) ? true : undefined
+
+  return (
+    <Layout>
+      <HomePage>
+        <PortfolioList>
+          {data.allDatoCmsWork.edges.map(({ node: work }) => (
+            <PortfolioPiece
+              key={work.id}
+              onMouseEnter={() => {setHoveredWorkID(work.id)}}
+              onMouseLeave={() => {setHoveredWorkID(null)}}
+              blur={!workselected(work.id) && hoveredWorkID}
+              selected={workselected(work.id)}>
+              <Title
+                to={`/works/${work.slug}`}
+                selected={workselected(work.id)}>
+                {work.title}
+                <FeatureText selected={workselected(work.id)}>{work.ftText && work.ftText}</FeatureText>
+              </Title>
+              <Subtitle
+                to={`/works/${work.slug}`}
+                selected={workselected(work.id)}>
+                {work.subtitle}
+              </Subtitle>
+            </PortfolioPiece>
+          ))}
+        </PortfolioList>
+      </HomePage>
+      <VideoWrapper>
+        {data.allDatoCmsWork.edges.map(({ node: work }) => (
+          <PortfolioVideo
+            autoPlay
+            muted
+            loop
+            role="video"
+            key={work.id}
+            src={work.coverVideo.url}
+            displayvideo={workselected(work.id)}/>
+        ))}
+      </VideoWrapper>
+    </Layout>
+  )
+}
 
 export default IndexPage
 
@@ -37,12 +126,11 @@ export const query = graphql`
         node {
           id
           title
+          ftText
+          subtitle
           slug
-          excerpt
-          coverImage {
-            fluid(maxWidth: 450, imgixParams: { fm: "jpg", auto: "compress" }) {
-              ...GatsbyDatoCmsSizes
-            }
+          coverVideo {
+            url
           }
         }
       }
