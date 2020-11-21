@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
-import { Link, graphql } from 'gatsby'
-import Layout from '../components/layout'
+import React, { useState } from 'react';
+import { Link, graphql } from 'gatsby';
 import styled from 'styled-components';
+import Layout from '../components/layout';
 
 const HomePage = styled.div`
   position: relative;
@@ -24,21 +24,21 @@ const PortfolioPiece = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  filter: ${props => props.blur ? 'blur(5px)' : 'blur(0px)'}
+  filter: ${(props) => (props.blur ? 'blur(5px)' : 'blur(0px)')}
 `;
 
 const Title = styled(Link)`
   font-size: 25px;
   line-height: 40px;
-  color: ${props => props.selected ? '#FFCB00' : 'black'};
-  filter: ${props => props.selected && 'blur(0px)'};
+  color: ${(props) => (props.selected ? '#FFCB00' : 'black')};
+  filter: ${(props) => props.selected && 'blur(0px)'};
   text-decoration: none;
 `;
 
 const FeatureText = styled.span`
   font-size: 12px;
-  color: ${props => props.selected ? '#FFCB00' : 'black'};
-  filter: ${props => props.selected && 'blur(0px)'};
+  color: ${(props) => (props.selected ? '#FFCB00' : 'black')};
+  filter: ${(props) => props.selected && 'blur(0px)'};
   text-decoration: none;
   margin-left: .5rem;
 `;
@@ -46,8 +46,8 @@ const FeatureText = styled.span`
 const Subtitle = styled(Link)`
   font-size: 12px;
   line-height: 20px;
-  color: ${props => props.selected ? '#FFCB00' : 'black'};
-  filter: ${props => props.selected && 'blur(0px)'};
+  color: ${(props) => (props.selected ? '#FFCB00' : 'black')};
+  filter: ${(props) => props.selected && 'blur(0px)'};
   text-decoration: none;
 `;
 
@@ -67,33 +67,40 @@ const VideoWrapper = styled.div`
 `;
 
 const PortfolioVideo = styled.video`
-  display: ${props => props.displayvideo ? 'block' : 'none'}
+  display: ${(props) => (props.displayvideo ? 'block' : 'none')}
 `;
 
-const IndexPage = ({ data }) => {
+const IndexPage = ({ data: { allDatoCmsWork } }) => {
   const [hoveredWorkID, setHoveredWorkID] = useState(null);
 
-  const workselected = (id) => (id === hoveredWorkID) ? true : undefined
+  const workselected = (id) => ((id === hoveredWorkID) ? true : undefined);
 
   return (
     <Layout>
       <HomePage>
         <PortfolioList>
-          {data.allDatoCmsWork.edges.map(({ node: work }) => (
+          {allDatoCmsWork.edges.map(({ node: work }) => (
             <PortfolioPiece
               key={work.id}
-              onMouseEnter={() => {setHoveredWorkID(work.id)}}
-              onMouseLeave={() => {setHoveredWorkID(null)}}
-              blur={!workselected(work.id) && hoveredWorkID}>
+              onMouseEnter={() => { setHoveredWorkID(work.id); }}
+              onMouseLeave={() => { setHoveredWorkID(null); }}
+              blur={!workselected(work.id) && hoveredWorkID}
+            >
               <Title
                 to={`/works/${work.slug}`}
-                selected={workselected(work.id)}>
+                selected={workselected(work.id)}
+              >
                 {work.title}
-                <FeatureText selected={workselected(work.id)}>{work.ftText && work.ftText}</FeatureText>
+                <FeatureText
+                  selected={workselected(work.id)}
+                >
+                  {work.ftText && work.ftText}
+                </FeatureText>
               </Title>
               <Subtitle
                 to={`/works/${work.slug}`}
-                selected={workselected(work.id)}>
+                selected={workselected(work.id)}
+              >
                 {work.subtitle}
               </Subtitle>
             </PortfolioPiece>
@@ -101,7 +108,7 @@ const IndexPage = ({ data }) => {
         </PortfolioList>
       </HomePage>
       <VideoWrapper>
-        {data.allDatoCmsWork.edges.map(({ node: work }) => (
+        {allDatoCmsWork.edges.map(({ node: work }) => (
           <PortfolioVideo
             autoPlay
             muted
@@ -109,14 +116,15 @@ const IndexPage = ({ data }) => {
             role="video"
             key={work.id}
             src={work.coverVideo.url}
-            displayvideo={workselected(work.id)}/>
+            displayvideo={workselected(work.id)}
+          />
         ))}
       </VideoWrapper>
     </Layout>
-  )
-}
+  );
+};
 
-export default IndexPage
+export default IndexPage;
 
 export const query = graphql`
   query IndexQuery {
@@ -135,4 +143,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;
