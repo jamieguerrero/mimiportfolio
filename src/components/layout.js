@@ -52,7 +52,16 @@ const BottomRight = styled.div`
 const TemplateWrapper = ({ children }) => {
   const data = useStaticQuery(graphql`
     query LayoutQuery {
+      site {
+        siteMetadata {
+          title
+          description
+        }
+      }
       datoCmsSite {
+        globalSeo {
+          siteName
+        }
         faviconMetaTags {
           id
           tags
@@ -103,7 +112,7 @@ const TemplateWrapper = ({ children }) => {
 
   return (
     <LayoutWrapper backgroundcolor={data.datoCmsAboutPage.backgroundColor.hex}>
-      <HelmetDatoCms favicon={data.datoCmsSite.faviconMetaTags} />
+      <HelmetDatoCms seo={data.site.siteMetadata} favicon={data.datoCmsSite.faviconMetaTags} />
       <TopLeft>
         <Link to="/"><img alt="Mimi Vuong Logo" src={data.datoCmsAboutPage.logo.url}/></Link>
       </TopLeft>

@@ -17,7 +17,7 @@ const PortfolioList = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
-  margin-top: 12rem;
+  margin: 9rem 0;
 `;
 
 const PortfolioPiece = styled.div`
@@ -84,8 +84,7 @@ const IndexPage = ({ data }) => {
               key={work.id}
               onMouseEnter={() => {setHoveredWorkID(work.id)}}
               onMouseLeave={() => {setHoveredWorkID(null)}}
-              blur={!workselected(work.id) && hoveredWorkID}
-              selected={workselected(work.id)}>
+              blur={!workselected(work.id) && hoveredWorkID}>
               <Title
                 to={`/works/${work.slug}`}
                 selected={workselected(work.id)}>
