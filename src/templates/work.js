@@ -1,29 +1,79 @@
 import React from 'react';
 import { HelmetDatoCms } from 'gatsby-source-datocms';
 import { graphql } from 'gatsby';
+import Rellax from 'react-rellax';
 import Layout from '../components/layout';
+import GalleryPiece from '../components/gallerypiece';
 
-export default ({ data: { datoCmsWork } }) => (
-  <Layout>
-    <HelmetDatoCms seo={datoCmsWork.seoMetaTags} />
-    {datoCmsWork.gallery.map(({ alt, url }) => (
-      <img
-        alt={alt}
-        key={url}
-        src={url}
-      />
-    ))}
-    <div
-      className="sheet__body"
-      dangerouslySetInnerHTML={{
-        __html: datoCmsWork.descriptionNode.childMarkdownRemark.html,
-      }}
-    />
-  </Layout>
-);
+import {
+  PortfolioPage,
+  Title,
+  Subtitle,
+} from '../global/styles';
+
+export default ({ data: { vimeoVideo, datoCmsWork } }) => {
+  const {
+    seoMetaTags, title, ftText, subtitle, gallery, clients, credits,
+  } = datoCmsWork;
+
+  // credits.credit
+  // clients.url
+
+  const getVimeoURL = (iframehtml) => {
+    const re = /(?<=(src\=\"))(.*?)(?=\?)/;
+    return re.exec(iframehtml)[0];
+  };
+
+  return (
+    <Layout>
+      <PortfolioPage>
+        <HelmetDatoCms seo={seoMetaTags} />
+        <Title>{`${title} ${ftText}`}</Title>
+        <Subtitle>{subtitle}</Subtitle>
+        <iframe
+          src={getVimeoURL(vimeoVideo.iframe)}
+          frameBorder="0"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          title="MIMI VUONG&amp;mdash;REEL"
+        />
+        <div
+          className="sheet__body"
+          dangerouslySetInnerHTML={{
+            __html: datoCmsWork.descriptionNode.childMarkdownRemark.html,
+          }}
+        />
+        {/*
+          Create a 2/3rd width center justified column of 12 columns
+          Each gallery item rolls up at left, right, then center justified
+          Each gallery item takes up 6, 4, then 8 columns
+        */}
+
+        {gallery.map(({ photo, jusitified, columns }) => {
+          const NewRellax = new Rellax();
+          return (
+            <GalleryPiece
+              photo={photo.url}
+              jusitified={jusitified}
+              columns={columns}
+            />
+          );
+        })}
+
+        {credits.map((credit) => credit.credit)}
+
+        {clients.map((client) => <img alt={client.filename} src={client.url} />)}
+        ´
+      </PortfolioPage>
+    </Layout>
+  );
+};
 
 export const query = graphql`
-  query WorkQuery($slug: String!) {
+  query WorkQuery($slug: String!, $videoid: String!) {
+    vimeoVideo(id: { eq: $videoid }) {
+      iframe
+    }
     datoCmsWork(slug: { eq: $slug }) {
       seoMetaTags {
         ...GatsbyDatoCmsSeoMetaTags
@@ -33,9 +83,11 @@ export const query = graphql`
       ftText
       subtitle
       coverVideo {
+        filename
         url
       }
       fullVideo {
+        title
         url
       }
       description
@@ -45,8 +97,11 @@ export const query = graphql`
         }
       }
       gallery {
-        alt
-        url
+        photo {
+          url
+        }
+        jusitified
+        columns
       }
       credits {
         credit
