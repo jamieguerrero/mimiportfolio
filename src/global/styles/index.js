@@ -10,20 +10,42 @@ export const HomePage = styled.div`
   overflow: scroll;
 `;
 
-export const PortfolioList = styled.div`
+export const MobilePortfolioList = styled.div`
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+export const DesktopPortfolioList = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
   width: 50%;
   height: 100vh;
   justify-content: center;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+
+  @media (max-width: 1200px) {
+    position: relative;
+    width: 100%;
+    margin: 0 3rem;
+  }
+`;
+
+export const MobilePortfolioPiece = styled.div`
+  cursor: pointer;
 `;
 
 export const PortfolioPiece = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
-  filter: ${(props) => (props.blur ? 'blur(5px)' : 'blur(0px)')}
+  filter: ${(props) => (props.blur ? 'blur(5px)' : 'blur(0px)')};
+  cursor: pointer;
+
 `;
 
 export const Title = styled(Link)`
@@ -32,6 +54,21 @@ export const Title = styled(Link)`
   color: ${(props) => (props.selected ? '#FFCB00' : 'black')};
   filter: ${(props) => props.selected && 'blur(0px)'};
   text-decoration: none;
+
+  @media (max-width: 1440px) {
+    font-size: 21px;
+    line-height: 25px;
+  }
+
+  @media (max-width: 1200px) {
+    font-size: 21px;
+    line-height: 25px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    line-height: 25px;
+  }
 `;
 
 export const FeatureText = styled.span`
@@ -66,7 +103,9 @@ export const VideoWrapper = styled.div`
 `;
 
 export const PortfolioVideo = styled.video`
-  display: ${(props) => (props.displayvideo ? 'block' : 'none')}
+  display: ${(props) => (props.displayvideo || props.alwaysDisplay ? 'block' : 'none')};
+  max-width: 100%;
+  margin-bottom: 2rem;
 `;
 
 export const PortfolioPage = styled.div`

@@ -3,16 +3,21 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const determineAlignment = (justification) => {
+  let justify = '';
   switch (justification) {
     case 'left':
-      return 'flex-start';
-    case 'center':
-      return 'center';
-    case 'right':
-      return 'flex-end';
-    default:
+      justify = 'flex-start';
       break;
+    case 'center':
+      justify = 'center';
+      break;
+    case 'right':
+      justify = 'flex-end';
+      break;
+    default:
+      return 'left';
   }
+  return justify;
 };
 
 const GalleryPiece = styled.div`

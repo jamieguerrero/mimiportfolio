@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link, graphql } from 'gatsby';
-import styled from 'styled-components';
+import { graphql } from 'gatsby';
 import Layout from '../components/layout';
 
 import {
   HomePage,
-  PortfolioList,
+  MobilePortfolioList,
+  DesktopPortfolioList,
+  MobilePortfolioPiece,
   PortfolioPiece,
   Title,
   FeatureText,
@@ -17,17 +18,40 @@ import {
 const IndexPage = ({ data: { allDatoCmsWork } }) => {
   const [hoveredWorkID, setHoveredWorkID] = useState(null);
 
-  const workselected = (id) => ((id === hoveredWorkID) ? true : undefined);
+  const workselected = (id) => (id === hoveredWorkID ? true : undefined);
 
   return (
     <Layout>
       <HomePage>
-        <PortfolioList>
+        <MobilePortfolioList>
+          {allDatoCmsWork.edges.map(({ node: work }) => (
+            <MobilePortfolioPiece>
+              <Title to={`/works/${work.slug}`} style={{ marginLeft: '2rem' }}>
+                {work.title}
+                <FeatureText>{work.ftText && work.ftText}</FeatureText>
+              </Title>
+              <PortfolioVideo
+                autoPlay
+                muted
+                loop
+                role="video"
+                alwaysDisplay
+                key={work.id}
+                src={work.coverVideo.url}
+              />
+            </MobilePortfolioPiece>
+          ))}
+        </MobilePortfolioList>
+        <DesktopPortfolioList>
           {allDatoCmsWork.edges.map(({ node: work }) => (
             <PortfolioPiece
               key={work.id}
-              onMouseEnter={() => { setHoveredWorkID(work.id); }}
-              onMouseLeave={() => { setHoveredWorkID(null); }}
+              onMouseEnter={() => {
+                setHoveredWorkID(work.id);
+              }}
+              onMouseLeave={() => {
+                setHoveredWorkID(null);
+              }}
               blur={!workselected(work.id) && hoveredWorkID}
             >
               <Title
@@ -35,9 +59,7 @@ const IndexPage = ({ data: { allDatoCmsWork } }) => {
                 selected={workselected(work.id)}
               >
                 {work.title}
-                <FeatureText
-                  selected={workselected(work.id)}
-                >
+                <FeatureText selected={workselected(work.id)}>
                   {work.ftText && work.ftText}
                 </FeatureText>
               </Title>
@@ -49,7 +71,7 @@ const IndexPage = ({ data: { allDatoCmsWork } }) => {
               </Subtitle>
             </PortfolioPiece>
           ))}
-        </PortfolioList>
+        </DesktopPortfolioList>
       </HomePage>
       <VideoWrapper>
         {allDatoCmsWork.edges.map(({ node: work }) => (

@@ -15,6 +15,15 @@ const LayoutWrapper = styled.div`
   width: 100vw;
 `;
 
+const MobileHeader = styled.div`
+  display: flex;
+  margin: 2rem 0;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
 const MenuLink = styled(Link)`
   text-decoration: none;
   pointer: cursor;
@@ -26,6 +35,10 @@ const TopLeft = styled.div`
   top: 3rem;
   left: 3rem;
   z-index: 100;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const TopRight = styled.div`
@@ -33,12 +46,20 @@ const TopRight = styled.div`
   top: 3rem;
   right: 3rem;
   z-index: 100;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 const BottomLeft = styled.div`
   position: fixed;
   bottom: 3rem;
   left: 3rem;
   z-index: 100;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const BottomRight = styled.div`
@@ -46,6 +67,10 @@ const BottomRight = styled.div`
   bottom: 3rem;
   right: 3rem;
   z-index: 100;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const TemplateWrapper = ({ children }) => {
@@ -132,6 +157,9 @@ const TemplateWrapper = ({ children }) => {
         </a>
         <a href={data.instagram.url} target="_blank" rel="noreferrer"><img src={data.instagram.icon.url} alt="Instagram Icon" /></a>
       </BottomRight>
+      <MobileHeader style={{ marginLeft: '2rem' }}>
+        <Link to="/"><img alt="Mimi Vuong Logo" src={data.datoCmsAboutPage.logo.url} /></Link>
+      </MobileHeader>
       {children}
     </LayoutWrapper>
   );

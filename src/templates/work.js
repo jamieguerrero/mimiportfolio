@@ -1,7 +1,7 @@
 import React from 'react';
 import { HelmetDatoCms } from 'gatsby-source-datocms';
 import { graphql } from 'gatsby';
-import Rellax from 'react-rellax';
+import RellaxWrapper from 'react-rellax-wrapper';
 import Layout from '../components/layout';
 import GalleryPiece from '../components/gallerypiece';
 
@@ -49,16 +49,29 @@ export default ({ data: { vimeoVideo, datoCmsWork } }) => {
           Each gallery item takes up 6, 4, then 8 columns
         */}
 
-        {gallery.map(({ photo, jusitified, columns }) => {
-          const NewRellax = new Rellax();
-          return (
-            <GalleryPiece
-              photo={photo.url}
-              jusitified={jusitified}
-              columns={columns}
-            />
-          );
-        })}
+        {gallery.map(({
+          id, photo, justified, columns,
+        }) =>
+        // const NewRellax = new Rellax(`.${id}`, {
+        //   speed: -10,
+        //   center: false,
+        //   wrapper: null,
+        //   round: true,
+        //   vertical: true,
+        //   horizontal: false,
+        // });
+
+          (
+            <RellaxWrapper speed="-10" center="true">
+              <GalleryPiece
+                className={id}
+                key={id}
+                photo={photo.url}
+                justified={justified}
+                columns={columns}
+              />
+            </RellaxWrapper>
+          ))}
 
         {credits.map((credit) => credit.credit)}
 
@@ -100,7 +113,7 @@ export const query = graphql`
         photo {
           url
         }
-        jusitified
+        justified
         columns
       }
       credits {
