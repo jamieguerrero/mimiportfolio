@@ -7,9 +7,12 @@ import GalleryPiece from '../components/gallerypiece';
 
 import {
   PortfolioPage,
+} from '../global/styles/work.styles';
+
+import {
   Title,
   Subtitle,
-} from '../global/styles';
+} from '../global/styles/typography.styles';
 
 export default ({ data: { vimeoVideo, datoCmsWork } }) => {
   const {

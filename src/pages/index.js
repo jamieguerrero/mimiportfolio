@@ -8,12 +8,15 @@ import {
   DesktopPortfolioList,
   MobilePortfolioPiece,
   PortfolioPiece,
+  VideoWrapper,
+  PortfolioVideo,
+} from '../global/styles/index.styles';
+
+import {
   Title,
   FeatureText,
   Subtitle,
-  VideoWrapper,
-  PortfolioVideo,
-} from '../global/styles';
+} from '../global/styles/typography.styles';
 
 const IndexPage = ({ data: { allDatoCmsWork } }) => {
   const [hoveredWorkID, setHoveredWorkID] = useState(null);
@@ -28,17 +31,17 @@ const IndexPage = ({ data: { allDatoCmsWork } }) => {
             <MobilePortfolioPiece>
               <Title to={`/works/${work.slug}`} style={{ marginLeft: '2rem' }}>
                 {work.title}
-                <FeatureText>{work.ftText && work.ftText}</FeatureText>
+                <FeatureText style={{ marginBottom: '1rem' }}>{work.ftText && work.ftText}</FeatureText>
+                <PortfolioVideo
+                  autoPlay
+                  muted
+                  loop
+                  role="video"
+                  alwaysDisplay
+                  key={work.id}
+                  src={work.coverVideo.url}
+                />
               </Title>
-              <PortfolioVideo
-                autoPlay
-                muted
-                loop
-                role="video"
-                alwaysDisplay
-                key={work.id}
-                src={work.coverVideo.url}
-              />
             </MobilePortfolioPiece>
           ))}
         </MobilePortfolioList>

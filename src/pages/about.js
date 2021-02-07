@@ -3,17 +3,25 @@ import { graphql } from 'gatsby';
 import { HelmetDatoCms } from 'gatsby-source-datocms';
 import Layout from '../components/layout';
 
+import { AboutPage, AboutPageContent } from '../global/styles/about.styles';
+import { H1, BodyTextWrapper } from '../global/styles/typography.styles';
+
 const About = ({ data: { about } }) => (
   <Layout>
     <HelmetDatoCms seo={about.seoMetaTags} />
-    {about.title}
-    {about.subtitle}
-    <div
-      className="sheet__body"
-      dangerouslySetInnerHTML={{
-        __html: about.bioNode.childMarkdownRemark.html,
-      }}
-    />
+    <AboutPage>
+      <AboutPageContent>
+        <H1>{about.title}</H1>
+        <BodyTextWrapper>
+          <div
+            className="sheet__body"
+            dangerouslySetInnerHTML={{
+              __html: about.bioNode.childMarkdownRemark.html,
+            }}
+          />
+        </BodyTextWrapper>
+      </AboutPageContent>
+    </AboutPage>
   </Layout>
 );
 

@@ -4,74 +4,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useStaticQuery, graphql } from 'gatsby';
 import { HelmetDatoCms } from 'gatsby-source-datocms';
-import styled from 'styled-components';
 import './style.css';
 
-const LayoutWrapper = styled.div`
-  position: absolute;
-  z-index: -100;
-  background-color: ${(props) => props.backgroundcolor};
-  height: 100vh;
-  width: 100vw;
-`;
-
-const MobileHeader = styled.div`
-  display: flex;
-  margin: 2rem 0;
-
-  @media (min-width: 768px) {
-    display: none;
-  }
-`;
-
-const MenuLink = styled(Link)`
-  text-decoration: none;
-  pointer: cursor;
-  color: black;
-`;
-
-const TopLeft = styled.div`
-  position: fixed;
-  top: 3rem;
-  left: 3rem;
-  z-index: 100;
-
-  @media (max-width: 767px) {
-    display: none;
-  }
-`;
-
-const TopRight = styled.div`
-  position: fixed;
-  top: 3rem;
-  right: 3rem;
-  z-index: 100;
-
-  @media (max-width: 767px) {
-    display: none;
-  }
-`;
-const BottomLeft = styled.div`
-  position: fixed;
-  bottom: 3rem;
-  left: 3rem;
-  z-index: 100;
-
-  @media (max-width: 767px) {
-    display: none;
-  }
-`;
-
-const BottomRight = styled.div`
-  position: fixed;
-  bottom: 3rem;
-  right: 3rem;
-  z-index: 100;
-
-  @media (max-width: 767px) {
-    display: none;
-  }
-`;
+import {
+  LayoutWrapper,
+  MenuLink,
+  NavigationHeader,
+  TopLeft,
+  TopRight,
+  BottomLeft,
+  BottomRight,
+} from '../global/styles/layout.styles';
 
 const TemplateWrapper = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -82,6 +25,7 @@ const TemplateWrapper = ({ children }) => {
         }
       }
       datoCmsAboutPage {
+        credits
         backgroundColor {
           hex
         }
@@ -127,15 +71,19 @@ const TemplateWrapper = ({ children }) => {
   return (
     <LayoutWrapper backgroundcolor={data.datoCmsAboutPage.backgroundColor.hex}>
       <HelmetDatoCms title={data.datoCmsSite.globalSeo.siteName} />
-      <TopLeft>
-        <Link to="/"><img alt="Mimi Vuong Logo" src={data.datoCmsAboutPage.logo.url} /></Link>
-      </TopLeft>
-      <TopRight>
-        <MenuLink to="/" style={{ marginRight: '2rem' }}>
-          PROJECTS
-        </MenuLink>
-        <MenuLink to="/about">ABOUT</MenuLink>
-      </TopRight>
+      <NavigationHeader>
+        <TopLeft>
+          <Link to="/">
+            <img alt="Mimi Vuong Logo" src={data.datoCmsAboutPage.logo.url} />
+          </Link>
+        </TopLeft>
+        <TopRight>
+          <MenuLink to="/" style={{ marginRight: '2rem' }}>
+            PROJECTS
+          </MenuLink>
+          <MenuLink to="/about">ABOUT</MenuLink>
+        </TopRight>
+      </NavigationHeader>
       <BottomLeft>
         <a href={data.email.url} target="_blank" rel="noreferrer">
           <img
@@ -143,9 +91,10 @@ const TemplateWrapper = ({ children }) => {
             alt="Email Icon"
             style={{ marginRight: '.5rem' }}
           />
-
         </a>
-        <a href={data.vimeo.url} target="_blank" rel="noreferrer"><img src={data.vimeo.icon.url} alt="Vimeo Icon" /></a>
+        <a href={data.vimeo.url} target="_blank" rel="noreferrer">
+          <img src={data.vimeo.icon.url} alt="Vimeo Icon" />
+        </a>
       </BottomLeft>
       <BottomRight>
         <a href={data.twitter.url} target="_blank" rel="noreferrer">
@@ -155,11 +104,10 @@ const TemplateWrapper = ({ children }) => {
             style={{ marginRight: '.5rem' }}
           />
         </a>
-        <a href={data.instagram.url} target="_blank" rel="noreferrer"><img src={data.instagram.icon.url} alt="Instagram Icon" /></a>
+        <a href={data.instagram.url} target="_blank" rel="noreferrer">
+          <img src={data.instagram.icon.url} alt="Instagram Icon" />
+        </a>
       </BottomRight>
-      <MobileHeader style={{ marginLeft: '2rem' }}>
-        <Link to="/"><img alt="Mimi Vuong Logo" src={data.datoCmsAboutPage.logo.url} /></Link>
-      </MobileHeader>
       {children}
     </LayoutWrapper>
   );
