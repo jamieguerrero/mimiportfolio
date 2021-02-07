@@ -7,6 +7,7 @@ import { HelmetDatoCms } from 'gatsby-source-datocms';
 import './style.css';
 
 import {
+  GlobalStyle,
   LayoutWrapper,
   MenuLink,
   NavigationHeader,
@@ -69,9 +70,10 @@ const TemplateWrapper = ({ children }) => {
   `);
 
   return (
-    <LayoutWrapper backgroundcolor={data.datoCmsAboutPage.backgroundColor.hex}>
+    <LayoutWrapper>
+      <GlobalStyle backgroundcolor={data.datoCmsAboutPage.backgroundColor.hex} />
       <HelmetDatoCms title={data.datoCmsSite.globalSeo.siteName} />
-      <NavigationHeader>
+      <NavigationHeader backgroundcolor={data.datoCmsAboutPage.backgroundColor.hex}>
         <TopLeft>
           <Link to="/">
             <img alt="Mimi Vuong Logo" src={data.datoCmsAboutPage.logo.url} />

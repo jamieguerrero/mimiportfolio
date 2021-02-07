@@ -1,31 +1,30 @@
 import styled from 'styled-components';
 
 import {
-  DesktopHeaderHeight,
-  MobileHeaderHeight,
   DesktopHorizontalHeaderSpacing,
   MobileHorizontalHeaderSpacing,
 } from './layout.styles';
 
 export const AboutPage = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: ${DesktopHorizontalHeaderSpacing} 1fr 1fr ${DesktopHorizontalHeaderSpacing};
   width: 100%;
   height: 100vh;
-  margin: 0 ${DesktopHorizontalHeaderSpacing};
 
-  @media (max-width: 1200px) {
-    grid-template-columns: 1fr;
-    margin: 0 ${MobileHorizontalHeaderSpacing};
+  @media (max-width: 767px) {
+    grid-template-columns: ${MobileHorizontalHeaderSpacing} 1fr ${MobileHorizontalHeaderSpacing};
   }
 `;
 
 export const AboutPageContent = styled.div`
-  grid-column: 2;
-  margin-top: ${DesktopHeaderHeight};
+  grid-column: 3;
 
   @media (max-width: 767px) {
-    margin-top: ${MobileHeaderHeight};
+    grid-column: 2;
     grid-template-columns: 1fr;
   }
+`;
+
+export const ClientWrapper = styled.div`
+  margin-top: 2rem;
 `;

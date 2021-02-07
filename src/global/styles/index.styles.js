@@ -1,26 +1,35 @@
 import styled from 'styled-components';
 
+import {
+  DesktopHorizontalHeaderSpacing,
+  MobileHorizontalHeaderSpacing,
+} from './layout.styles';
+
 export const HomePage = styled.div`
-  position: relative;
-  display: flex;
-  height: 100vh;
+  display: grid;
+  grid-template-columns: ${DesktopHorizontalHeaderSpacing} 1fr 1fr ${DesktopHorizontalHeaderSpacing};
   width: 100vw;
-  justify-content: flex-end;
   overflow: scroll;
+  z-index: 100;
+  white-space: pre;
+
+  @media (max-width: 767px) {
+    grid-template-columns: ${MobileHorizontalHeaderSpacing} 1fr 1fr ${MobileHorizontalHeaderSpacing};
+  }
 `;
 
 export const MobilePortfolioList = styled.div`
+  grid-column: 2/4;
+  
   @media (min-width: 768px) {
     display: none;
   }
 `;
 
 export const DesktopPortfolioList = styled.div`
-  position: absolute;
   display: flex;
+  grid-column: 3;
   flex-direction: column;
-  width: 50%;
-  height: 100vh;
   justify-content: center;
 
   @media (max-width: 767px) {
@@ -28,9 +37,9 @@ export const DesktopPortfolioList = styled.div`
   }
 
   @media (max-width: 1200px) {
+    grid-column: 2;
     position: relative;
     width: 100%;
-    margin: 0 3rem;
   }
 `;
 
@@ -44,7 +53,6 @@ export const PortfolioPiece = styled.div`
   margin-bottom: 10px;
   filter: ${(props) => (props.blur ? 'blur(5px)' : 'blur(0px)')};
   cursor: pointer;
-
 `;
 
 export const VideoWrapper = styled.div`

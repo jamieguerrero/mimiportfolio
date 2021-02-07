@@ -1,18 +1,23 @@
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { Link } from 'gatsby';
 
 export const DesktopVerticalHeaderSpacing = '50px';
 export const DesktopHorizontalHeaderSpacing = '50px';
-export const DesktopHeaderHeight = '7rem';
+export const DesktopHeaderHeight = '5rem';
 
 export const MobileVerticalHeaderSpacing = '20px';
 export const MobileHorizontalHeaderSpacing = '20px';
-export const MobileHeaderHeight = '4rem';
+export const MobileHeaderHeight = '3rem';
+
+export const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${(props) => props.backgroundcolor};
+  }
+`;
 
 export const LayoutWrapper = styled.div`
   position: absolute;
   z-index: -100;
-  background-color: ${(props) => props.backgroundcolor};
   height: 100vh;
   width: 100vw;
 `;
@@ -20,11 +25,11 @@ export const LayoutWrapper = styled.div`
 export const NavigationHeader = styled.div`
   display: grid;
   height: ${DesktopHeaderHeight};
-  margin: ${MobileHorizontalHeaderSpacing} 0;
+  padding: ${MobileHorizontalHeaderSpacing} 0;
+  background-color: ${(props) => props.backgroundcolor};
 
   @media (min-width: 768px) {
-    display: none;
-    grid-template-rows: 1fr 1fr; 
+    grid-template-rows: 1fr 1fr;
   }
 `;
 
@@ -41,7 +46,6 @@ export const TopLeft = styled.div`
   z-index: 100;
 
   @media (max-width: 767px) {
-    display: none;
     top: ${MobileVerticalHeaderSpacing};
     left: ${MobileHorizontalHeaderSpacing};
   }
@@ -54,7 +58,6 @@ export const TopRight = styled.div`
   z-index: 100;
 
   @media (max-width: 767px) {
-    display: none;
     top: ${MobileVerticalHeaderSpacing};
     right: ${MobileHorizontalHeaderSpacing};
   }

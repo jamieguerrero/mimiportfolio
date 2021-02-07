@@ -3,10 +3,14 @@ import { graphql } from 'gatsby';
 import { HelmetDatoCms } from 'gatsby-source-datocms';
 import Layout from '../components/layout';
 
-import { AboutPage, AboutPageContent } from '../global/styles/about.styles';
+import { AboutPage, AboutPageContent, ClientWrapper } from '../global/styles/about.styles';
 import { H1, BodyTextWrapper } from '../global/styles/typography.styles';
 
-const About = ({ data: { about } }) => (
+const About = ({
+  data: {
+    about, email, vimeo, twitter, instagram,
+  },
+}) => (
   <Layout>
     <HelmetDatoCms seo={about.seoMetaTags} />
     <AboutPage>
@@ -20,6 +24,34 @@ const About = ({ data: { about } }) => (
             }}
           />
         </BodyTextWrapper>
+        <a href={email.url} target="_blank" rel="noreferrer">
+          <img
+            src={email.icon.url}
+            alt="Email Icon"
+            style={{ marginRight: '.5rem' }}
+          />
+          {email.handle}
+        </a>
+        <a href={vimeo.url} target="_blank" rel="noreferrer">
+          <img src={vimeo.icon.url} alt="Vimeo Icon" />
+          {vimeo.handle}
+        </a>
+        <a href={twitter.url} target="_blank" rel="noreferrer">
+          <img
+            src={twitter.icon.url}
+            alt="Twitter Icon"
+            style={{ marginRight: '.5rem' }}
+          />
+          {twitter.handle}
+        </a>
+        <a href={instagram.url} target="_blank" rel="noreferrer">
+          <img src={instagram.icon.url} alt="Instagram Icon" />
+          {instagram.handle}
+        </a>
+
+        <ClientWrapper>
+          <H1>Clients</H1>
+        </ClientWrapper>
       </AboutPageContent>
     </AboutPage>
   </Layout>
@@ -38,6 +70,38 @@ export const query = graphql`
         childMarkdownRemark {
           html
         }
+      }
+    }
+    email: datoCmsSocialProfile(profileType: { eq: "Email" }) {
+      url
+      profileType
+      handle
+      icon {
+        url
+      }
+    }
+    vimeo: datoCmsSocialProfile(profileType: { eq: "Vimeo" }) {
+      url
+      profileType
+      handle
+      icon {
+        url
+      }
+    }
+    twitter: datoCmsSocialProfile(profileType: { eq: "Twitter" }) {
+      url
+      profileType
+      handle
+      icon {
+        url
+      }
+    }
+    instagram: datoCmsSocialProfile(profileType: { eq: "Instagram" }) {
+      url
+      profileType
+      handle
+      icon {
+        url
       }
     }
   }
