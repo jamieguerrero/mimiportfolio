@@ -29,7 +29,7 @@ const IndexPage = ({ data: { allDatoCmsWork } }) => {
         <MobilePortfolioList>
           {allDatoCmsWork.edges.map(({ node: work }) => (
             <MobilePortfolioPiece>
-              <Title to={`/works/${work.slug}`} style={{ marginLeft: '2rem' }}>
+              <Title to={`/works/${work.slug}`}>
                 {work.title}
                 <FeatureText style={{ marginBottom: '1rem' }}>{work.ftText && work.ftText}</FeatureText>
                 <PortfolioVideo
