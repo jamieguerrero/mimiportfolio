@@ -48,18 +48,13 @@ export default ({ data: { vimeoVideo, datoCmsAboutPage, datoCmsWork } }) => {
       <PortfolioPage>
         <PortfolioWrapper>
           <PortfolioAboveTheFold
-            speed={-5}
+            speed={-8}
             backgroundcolor={datoCmsAboutPage.backgroundColor.hex}
           >
             <Title>{`${title} ${ftText}`}</Title>
             <Subtitle>{subtitle}</Subtitle>
           </PortfolioAboveTheFold>
-          {/*
-            Each gallery item rolls up at left, right, then center justified
-            Each gallery item takes up 6, 4, then 8 columns
-          */}
-
-          <PortfolioGalleryWrapper rows={gallery.length + 2} speed={0}>
+          <PortfolioGalleryWrapper rows={gallery.length + 2} speed={-6}>
             <VideoWrapper>
               <PortfolioVideo
                 src={getVimeoURL(vimeoVideo.iframe)}
@@ -74,18 +69,13 @@ export default ({ data: { vimeoVideo, datoCmsAboutPage, datoCmsWork } }) => {
                 __html: datoCmsWork.descriptionNode.childMarkdownRemark.html,
               }}
             />
+            {/*
+            Each gallery item rolls up at left, right, then center justified
+            Each gallery item takes up 6, 4, then 8 columns
+          */}
             {gallery.map(({
               id, photo, justified, columns,
             }, row) => (
-              // const NewRellax = new Rellax(`.${id}`, {
-              //   speed: -10,
-              //   center: false,
-              //   wrapper: null,
-              //   round: true,
-              //   vertical: true,
-              //   horizontal: false,
-              // });
-
               <GalleryPiece
                 row={row + 3}
                 className={id}

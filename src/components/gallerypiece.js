@@ -25,6 +25,7 @@ const GalleryPieceWrapper = styled.div`
   grid-row: ${(props) => props.row};
   img {
     width: 100%;
+    margin-bottom: 4rem;
   }
 
   @media (max-width: ${MobileBreakpoint}){

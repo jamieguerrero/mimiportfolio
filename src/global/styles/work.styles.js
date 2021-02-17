@@ -41,6 +41,7 @@ export const PortfolioAboveTheFold = styled(RellaxWrapper)`
   text-align: left;
   align-items: flex-start;
   background-color: ${(props) => props.backgroundcolor};
+  padding: 1rem 0;
   margin-bottom: 2rem;
 
   @media (max-width: ${MobileBreakpoint}) {
@@ -94,11 +95,16 @@ export const WorkCreditWrapper = styled(RellaxWrapper)`
 
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+
+  margin-top: 40rem;
+
+  @media (max-width: ${MobileBreakpoint}) {
+    
+  }
 `;
 
 export const CreditsWrapper = styled.div`
   grid-column: 5/9;
-  margin-top: 10rem;
 
   display: grid;
   grid-template-columns: 1fr;
