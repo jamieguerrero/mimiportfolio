@@ -3,7 +3,13 @@ import styled from 'styled-components';
 import {
   DesktopHorizontalHeaderSpacing,
   MobileHorizontalHeaderSpacing,
+  MobileBreakpoint,
+  TabletBreakpoint,
 } from './layout.styles';
+
+import {
+  FeatureText,
+} from './typography.styles';
 
 export const HomePage = styled.div`
   display: grid;
@@ -13,13 +19,13 @@ export const HomePage = styled.div`
   z-index: 100;
   white-space: pre;
 
-  @media (max-width: 767px) {
+  @media (max-width: ${MobileBreakpoint}) {
     grid-template-columns: ${MobileHorizontalHeaderSpacing} 1fr 1fr ${MobileHorizontalHeaderSpacing};
   }
 `;
 
 export const MobilePortfolioList = styled.div`
-  grid-column: 2/4;
+  grid-column: 1/5;
   
   @media (min-width: 768px) {
     display: none;
@@ -32,11 +38,11 @@ export const DesktopPortfolioList = styled.div`
   flex-direction: column;
   justify-content: center;
 
-  @media (max-width: 767px) {
+  @media (max-width: ${MobileBreakpoint}) {
     display: none;
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: ${TabletBreakpoint}) {
     grid-column: 2;
     position: relative;
     width: 100%;
@@ -45,6 +51,10 @@ export const DesktopPortfolioList = styled.div`
 
 export const MobilePortfolioPiece = styled.div`
   cursor: pointer;
+
+  ${FeatureText} {
+    padding-bottom: 2rem;
+  }
 `;
 
 export const PortfolioPiece = styled.div`

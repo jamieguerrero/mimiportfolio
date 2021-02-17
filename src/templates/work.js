@@ -1,22 +1,36 @@
 import React from 'react';
 import { HelmetDatoCms } from 'gatsby-source-datocms';
 import { graphql } from 'gatsby';
-import RellaxWrapper from 'react-rellax-wrapper';
 import Layout from '../components/layout';
 import GalleryPiece from '../components/gallerypiece';
 
 import {
   PortfolioPage,
+  PortfolioWrapper,
+  PortfolioAboveTheFold,
+  PortfolioVideo,
+  WorkCreditWrapper,
+  CreditsWrapper,
+  ClientWrapper,
+  PortfolioGalleryWrapper,
+  PortfolioDescription,
 } from '../global/styles/work.styles';
 
 import {
   Title,
   Subtitle,
+  BodyTextWrapper,
 } from '../global/styles/typography.styles';
 
-export default ({ data: { vimeoVideo, datoCmsWork } }) => {
+export default ({ data: { vimeoVideo, datoCmsAboutPage, datoCmsWork } }) => {
   const {
-    seoMetaTags, title, ftText, subtitle, gallery, clients, credits,
+    seoMetaTags,
+    title,
+    ftText,
+    subtitle,
+    gallery,
+    clients,
+    credits,
   } = datoCmsWork;
 
   // credits.credit
@@ -29,57 +43,69 @@ export default ({ data: { vimeoVideo, datoCmsWork } }) => {
 
   return (
     <Layout>
+      <HelmetDatoCms seo={seoMetaTags} />
       <PortfolioPage>
-        <HelmetDatoCms seo={seoMetaTags} />
-        <Title>{`${title} ${ftText}`}</Title>
-        <Subtitle>{subtitle}</Subtitle>
-        <iframe
-          src={getVimeoURL(vimeoVideo.iframe)}
-          frameBorder="0"
-          allow="autoplay; fullscreen"
-          allowFullScreen
-          title="MIMI VUONG&amp;mdash;REEL"
-        />
-        <div
-          className="sheet__body"
-          dangerouslySetInnerHTML={{
-            __html: datoCmsWork.descriptionNode.childMarkdownRemark.html,
-          }}
-        />
-        {/*
-          Create a 2/3rd width center justified column of 12 columns
-          Each gallery item rolls up at left, right, then center justified
-          Each gallery item takes up 6, 4, then 8 columns
-        */}
+        <PortfolioWrapper>
+          <PortfolioAboveTheFold speed={-8} backgroundcolor={datoCmsAboutPage.backgroundColor.hex}>
+            <Title>{`${title} ${ftText}`}</Title>
+            <Subtitle>{subtitle}</Subtitle>
+          </PortfolioAboveTheFold>
+          {/*
+            Each gallery item rolls up at left, right, then center justified
+            Each gallery item takes up 6, 4, then 8 columns
+          */}
 
-        {gallery.map(({
-          id, photo, justified, columns,
-        }) =>
-        // const NewRellax = new Rellax(`.${id}`, {
-        //   speed: -10,
-        //   center: false,
-        //   wrapper: null,
-        //   round: true,
-        //   vertical: true,
-        //   horizontal: false,
-        // });
+          <PortfolioGalleryWrapper rows={gallery.length + 2} speed={0}>
+            <PortfolioVideo
+              src={getVimeoURL(vimeoVideo.iframe)}
+              frameBorder="0"
+              allow="autoplay; fullscreen"
+              allowFullScreen
+              title="MIMI VUONG&amp;mdash;REEL"
+            />
+            <PortfolioDescription
+              dangerouslySetInnerHTML={{
+                __html: datoCmsWork.descriptionNode.childMarkdownRemark.html,
+              }}
+            />
+            {gallery.map(({
+              id, photo, justified, columns,
+            }, row) => (
+              // const NewRellax = new Rellax(`.${id}`, {
+              //   speed: -10,
+              //   center: false,
+              //   wrapper: null,
+              //   round: true,
+              //   vertical: true,
+              //   horizontal: false,
+              // });
 
-          (
-            <RellaxWrapper speed="-10" center="true">
               <GalleryPiece
+                row={row + 3}
                 className={id}
                 key={id}
                 photo={photo.url}
                 justified={justified}
                 columns={columns}
               />
-            </RellaxWrapper>
-          ))}
+            ))}
+          </PortfolioGalleryWrapper>
 
-        {credits.map((credit) => credit.credit)}
+          <WorkCreditWrapper speed={0}>
+            <CreditsWrapper>
+              <BodyTextWrapper>CREDITS</BodyTextWrapper>
+              {credits.map((credit) => (
+                <BodyTextWrapper>{credit.credit}</BodyTextWrapper>
+              ))}
+            </CreditsWrapper>
 
-        {clients.map((client) => <img alt={client.filename} src={client.url} />)}
-        ´
+            <ClientWrapper>
+              {clients.map((client) => (
+                <img alt={client.filename} src={client.url} />
+              ))}
+            </ClientWrapper>
+          </WorkCreditWrapper>
+        </PortfolioWrapper>
       </PortfolioPage>
     </Layout>
   );
@@ -89,6 +115,11 @@ export const query = graphql`
   query WorkQuery($slug: String!, $videoid: String!) {
     vimeoVideo(id: { eq: $videoid }) {
       iframe
+    }
+    datoCmsAboutPage {
+      backgroundColor {
+        hex
+      }
     }
     datoCmsWork(slug: { eq: $slug }) {
       seoMetaTags {

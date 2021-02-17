@@ -2,44 +2,53 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const determineAlignment = (justification) => {
-  let justify = '';
-  switch (justification) {
+import { MobileBreakpoint } from '../global/styles/layout.styles';
+
+const calculateColumnSpan = (columns, justified) => {
+  switch (justified) {
     case 'left':
-      justify = 'flex-start';
-      break;
+      return `1/${columns + 1}`;
     case 'center':
-      justify = 'center';
       break;
     case 'right':
-      justify = 'flex-end';
-      break;
+      const start = 14 - columns;
+      return `${start}/15`;
     default:
-      return 'left';
+      break;
   }
-  return justify;
 };
 
-const GalleryPiece = styled.div`
-    grid-column: ${(props) => props.columns};
-    justify-content: ${(props) => determineAlignment(props.justification)};
+const GalleryPieceWrapper = styled.div`
+  grid-column: ${(props) => calculateColumnSpan(props.columns, props.justified)};
+  grid-row: ${(props) => props.row};
+  img {
+    width: 100%;
+  }
+
+  @media (max-width: ${MobileBreakpoint}){
+    grid-column: 1/15
+  }
 `;
 
-function gallerypiece({ photo, justified, columns }) {
+function GalleryPiece({
+  row, photo, justified, columns,
+}) {
   return (
-    <GalleryPiece
+    <GalleryPieceWrapper
+      speed="-5"
+      row={row}
       justified={justified}
       columns={columns}
     >
       <img alt={photo} src={photo} />
-    </GalleryPiece>
+    </GalleryPieceWrapper>
   );
 }
 
-gallerypiece.propTypes = {
+GalleryPiece.propTypes = {
   photo: PropTypes.string.isRequired,
   justified: PropTypes.string.isRequired,
   columns: PropTypes.number.isRequired,
 };
 
-export default gallerypiece;
+export default GalleryPiece;

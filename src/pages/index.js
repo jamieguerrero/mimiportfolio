@@ -14,6 +14,7 @@ import {
 
 import {
   Title,
+  MobilePortfolioTitle,
   FeatureText,
   Subtitle,
 } from '../global/styles/typography.styles';
@@ -30,7 +31,7 @@ const IndexPage = ({ data: { allDatoCmsWork } }) => {
           {allDatoCmsWork.edges.map(({ node: work }) => (
             <MobilePortfolioPiece>
               <Title to={`/works/${work.slug}`}>
-                {work.title}
+                <MobilePortfolioTitle>{work.title}</MobilePortfolioTitle>
                 <FeatureText style={{ marginBottom: '1rem' }}>{work.ftText && work.ftText}</FeatureText>
                 <PortfolioVideo
                   autoPlay
