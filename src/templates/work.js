@@ -8,6 +8,7 @@ import {
   PortfolioPage,
   PortfolioWrapper,
   PortfolioAboveTheFold,
+  VideoWrapper,
   PortfolioVideo,
   WorkCreditWrapper,
   CreditsWrapper,
@@ -46,7 +47,10 @@ export default ({ data: { vimeoVideo, datoCmsAboutPage, datoCmsWork } }) => {
       <HelmetDatoCms seo={seoMetaTags} />
       <PortfolioPage>
         <PortfolioWrapper>
-          <PortfolioAboveTheFold speed={-8} backgroundcolor={datoCmsAboutPage.backgroundColor.hex}>
+          <PortfolioAboveTheFold
+            speed={-5}
+            backgroundcolor={datoCmsAboutPage.backgroundColor.hex}
+          >
             <Title>{`${title} ${ftText}`}</Title>
             <Subtitle>{subtitle}</Subtitle>
           </PortfolioAboveTheFold>
@@ -56,13 +60,15 @@ export default ({ data: { vimeoVideo, datoCmsAboutPage, datoCmsWork } }) => {
           */}
 
           <PortfolioGalleryWrapper rows={gallery.length + 2} speed={0}>
-            <PortfolioVideo
-              src={getVimeoURL(vimeoVideo.iframe)}
-              frameBorder="0"
-              allow="autoplay; fullscreen"
-              allowFullScreen
-              title="MIMI VUONG&amp;mdash;REEL"
-            />
+            <VideoWrapper>
+              <PortfolioVideo
+                src={getVimeoURL(vimeoVideo.iframe)}
+                frameBorder="0"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+                title="MIMI VUONG&amp;mdash;REEL"
+              />
+            </VideoWrapper>
             <PortfolioDescription
               dangerouslySetInnerHTML={{
                 __html: datoCmsWork.descriptionNode.childMarkdownRemark.html,

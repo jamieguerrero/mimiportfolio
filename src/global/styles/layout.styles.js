@@ -11,7 +11,7 @@ export const MobileHeaderHeight = '3rem';
 
 export const MobileBreakpoint = '767px';
 export const TabletBreakpoint = '1200px';
-export const DesktopBreakpoint = '767px';
+export const DesktopBreakpoint = '1200px';
 
 export const GlobalStyle = createGlobalStyle`
   @font-face {

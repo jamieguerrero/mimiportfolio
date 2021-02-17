@@ -5,13 +5,15 @@ import styled from 'styled-components';
 import { MobileBreakpoint } from '../global/styles/layout.styles';
 
 const calculateColumnSpan = (columns, justified) => {
+  let start;
   switch (justified) {
     case 'left':
       return `1/${columns + 1}`;
-    case 'center':
-      break;
+    case 'centered':
+      start = Math.round((14 - columns) / 2);
+      return `${start}/${start + columns}`;
     case 'right':
-      const start = 14 - columns;
+      start = 13 - columns;
       return `${start}/15`;
     default:
       break;
