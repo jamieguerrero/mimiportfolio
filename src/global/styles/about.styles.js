@@ -49,8 +49,8 @@ export const SocialWrapper = styled.div`
     text-decoration: underline;
     font-weight: 500;
   }
-  
-  @media (max-width: ${MobileBreakpoint}){
+
+  @media (max-width: ${MobileBreakpoint}) {
     grid-template-columns: 1fr;
   }
 `;
@@ -88,5 +88,19 @@ export const ClientWrapper = styled.div`
     @media (max-width: ${MobileBreakpoint}) {
       height: 1.5rem;
     }
+  }
+`;
+
+export const WebsiteCredits = styled.div`
+  margin: 4rem 0; 
+
+  @media (min-width: ${TabletBreakpoint}) {
+    margin: 0;
+    position: absolute;
+    left: 60px;
+    text-orientation: mixed;
+    writing-mode: vertical-rl;
+    bottom: 100px;
+    transform: rotate(180deg);
   }
 `;

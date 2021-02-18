@@ -86,7 +86,6 @@ export const PortfolioGalleryWrapper = styled(RellaxWrapper)`
   display: grid;
   grid-template-rows: auto auto repeat(${(props) => props.rows - 2}, 1fr);
   grid-template-columns: ${MobileHorizontalHeaderSpacing} repeat(12, 1fr) ${MobileHorizontalHeaderSpacing};
-  z-index: -10;
 `;
 
 export const WorkCreditWrapper = styled(RellaxWrapper)`

@@ -8,6 +8,7 @@ import {
   AboutPageContent,
   SocialWrapper,
   ClientWrapper,
+  WebsiteCredits,
 } from '../global/styles/about.styles';
 import { H1, BodyTextWrapper } from '../global/styles/typography.styles';
 
@@ -63,11 +64,11 @@ const About = ({
             {instagram.handle}
           </a>
         </SocialWrapper>
-
         <ClientWrapper>
           <H1>Clients</H1>
           {about.clients.map((client) => (<img src={client.url} alt={client.title} />))}
         </ClientWrapper>
+        <WebsiteCredits>{about.credits}</WebsiteCredits>
       </AboutPageContent>
     </AboutPage>
   </Layout>
@@ -87,6 +88,7 @@ export const query = graphql`
           html
         }
       }
+      credits
       clients {
         url
         title
