@@ -82,7 +82,6 @@ const IndexPage = ({ data: { allDatoCmsWork } }) => {
             autoPlay
             muted
             loop
-            role="video"
             key={work.id}
             src={work.coverVideo.url}
             displayvideo={workselected(work.id)}
